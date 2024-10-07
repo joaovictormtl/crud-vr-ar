@@ -29,18 +29,25 @@
       "id": 6
     },
     {
-      "name": "Carlos",
-      "age": 30,
-      "weight": 75,
-      "height": 1.8,
+      "name": "Lucas",
+      "age": 21,
+      "weight": 80,
+      "height": 1.85,
       "id": 7
     },
     {
-      "name": "Carlos",
-      "age": 30,
-      "weight": 75,
-      "height": 1.8,
-      "id": 11
+      "name": "Fernando Silva",
+      "age": 56,
+      "weight": 207,
+      "height": 1.9,
+      "id": 8
+    },
+    {
+      "name": "Ana",
+      "age": 22,
+      "weight": 55,
+      "height": 1.65,
+      "id": 9
     }
   ]
 }
