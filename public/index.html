@@ -106,7 +106,7 @@
             <a-text id="altura" value="__" position="0 -0.6 0" color="#000"></a-text>
         </a-plane>
 
-        <a-entity id="user-list" position="-4 3.5 -7"></a-entity>
+        <a-entity id="user-list" position="-5 3.5 -4"></a-entity>
 
     </a-scene>
 
@@ -114,7 +114,7 @@
         let selectedUserId = null; // Para armazenar o ID do usuário selecionado
 
         // URL do endpoint da API
-        const API_URL = 'https://improved-funicular-4rq7567pw93qpr7-4000.app.github.dev/users';
+        const API_URL = 'https://crispy-engine-5wrvxpjv99f7q4p-4000.app.github.dev/users';
 
         // Função para mostrar mensagem 3D e ocultar depois de um tempo
         function showMessage(message, color = 'green') {
@@ -128,10 +128,10 @@
         }
 
         // Função de evento para CRUD ao detectar a mira
-        document.querySelectorAll('[crud-action]').forEach((el) => {
-            el.addEventListener('mouseenter', function () {
-                const action = this.getAttribute('crud-action');
-                handleCrudAction(action);
+        document.querySelectorAll('a-box[crud-action]').forEach((el) => {
+            el.addEventListener('mouseenter', function (event) {
+                let action = event.target.getAttribute('crud-action');
+                handleCrudAction(action); // Executa a ação apenas para o box que está sendo mirado
             });
         });
 
@@ -163,7 +163,12 @@
             const randomUsers = [
                 { name: 'Ana', age: 22, weight: 55, height: 1.65 },
                 { name: 'Carlos', age: 30, weight: 75, height: 1.80 },
-                { name: 'Marina', age: 28, weight: 62, height: 1.70 }
+                { name: 'Marina', age: 28, weight: 62, height: 1.70 },
+                { name: 'Erika', age: 40, weight: 72, height: 1.60 },
+                { name: 'Fernando', age: 56, weight: 107, height: 1.90 },
+                { name: 'Yasmim', age: 28, weight: 65, height: 1.65 },
+                { name: 'Lucas', age: 21, weight: 80, height: 1.85 },
+                { name: "Joao", age: 23, weight: 78, height: 1.77}
             ];
             const randomUser = randomUsers[Math.floor(Math.random() * randomUsers.length)];
 
@@ -204,22 +209,29 @@
                 showMessage('Selecione um usuário primeiro!', 'red');
                 return;
             }
-            const userData = {
-                name: document.querySelector('#nome').getAttribute('value'),
-                age: document.querySelector('#idade').getAttribute('value'),
-                weight: document.querySelector('#peso').getAttribute('value'),
-                height: document.querySelector('#altura').getAttribute('value')
-            };
+            const randomUsers = [
+                { name: 'Ana', age: 22, weight: 55, height: 1.65 },
+                { name: 'Carlos', age: 30, weight: 75, height: 1.80 },
+                { name: 'Marina', age: 28, weight: 62, height: 1.70 },
+                { name: 'Erika', age: 40, weight: 72, height: 1.60 },
+                { name: 'Fernando', age: 56, weight: 107, height: 1.90 },
+                { name: 'Yasmim', age: 28, weight: 65, height: 1.65 },
+                { name: 'Lucas', age: 21, weight: 80, height: 1.85 },
+                { name: "Joao", age: 23, weight: 78, height: 1.77}
+            ];
+
+            const randomUser = randomUsers[Math.floor(Math.random() * randomUsers.length)];
 
             fetch(`${API_URL}/${userId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(userData)
+                body: JSON.stringify(randomUser)
             })
                 .then(response => response.json())
                 .then(data => {
                     showMessage('Usuário atualizado!');
                     loadUserList();
+                    getUser(userId);
                 })
                 .catch(error => showMessage('Erro ao atualizar usuário!', 'red'));
         }
@@ -231,7 +243,8 @@
                 return;
             }
             const userData = {
-                weight: document.querySelector('#peso').getAttribute('value')
+                name: document.querySelector('#nome').getAttribute('value') + " Silva",
+                weight: Number(document.querySelector('#peso').getAttribute('value')) + 100
             };
 
             fetch(`${API_URL}/${userId}`, {
@@ -243,6 +256,7 @@
                 .then(data => {
                     showMessage('Peso do usuário atualizado!');
                     loadUserList();
+                    getUser(userId);
                 })
                 .catch(error => showMessage('Erro ao atualizar peso do usuário!', 'red'));
         }
